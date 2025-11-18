@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-import './App.css'
-import MenuLateral1 from './components/MenuLateral1/MenuLateral'
+
+// @ts-expect-error
+import MenuLateral1 from './components/MenuLateral/MenuLateral-1/MenuLateral'
+import PacmanSpinner from './components/Spinner/PacmanSpinner'
 
 function App() {
 
   return (
     <>
-      <MenuLateral1 />
+      <PacmanSpinner/>
     </>
   )
 }
