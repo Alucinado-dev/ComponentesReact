@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 
-// @ts-expect-error
+import FooterAlucinado from './components/Footer/FooterAlucinado'
 import MenuLateral1 from './components/MenuLateral/MenuLateral-1/MenuLateral'
 import PacmanSpinner from './components/Spinner/PacmanSpinner'
 
@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <PacmanSpinner/>
+      <FooterAlucinado />
     </>
   )
 }
