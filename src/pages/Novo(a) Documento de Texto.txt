@@ -1,0 +1,177 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { motion } from 'motion/react'
+import { useForm, type SubmitHandler } from 'react-hook-form'
+import { z } from 'zod'
+
+import img from '../assets/img/contactPageIMG.jpg'
+import tag from '../assets/img/etiqueta.png'
+import ContactForm from '../components/features/ContactForm'
+import type { allEvents, allServices } from '../types/FormTypes'
+
+// posthog para evento de envio
+import { usePostHog } from 'posthog-js/react'
+import { useNavigate } from 'react-router-dom'
+import { sendContactForm } from '../client/forms'
+import Footer from '../layout/Footer'
+
+const serviceOptions: { value: allServices; text: string; isDisabled: boolean }[] = [
+    { value: 'weddingPlanning', text: 'Wedding Planning', isDisabled: false },
+    { value: 'decoration', text: 'decoração', isDisabled: false },
+    { value: 'dayCoordenation', text: 'Cordenação do Dia', isDisabled: false },
+    { value: 'other', text: 'Outro', isDisabled: false },
+]
+
+const eventOptions: { value: allEvents; text: string; isDisabled: boolean }[] = [
+    { value: 'eventType1', text: 'Evento 1', isDisabled: false },
+    { value: 'eventType2', text: 'Evento 2', isDisabled: false },
+    { value: 'eventType3', text: 'Evento 3', isDisabled: false },
+    { value: 'other', text: 'Outro', isDisabled: false },
+]
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+const ACCEPTED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf']
+
+const formSchema = z.object({
+    name: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres.'),
+    email: z.email('Por favor, insira um email válido.'),
+    phone: z.string().min(9, ''),
+    serviceType: z.string().optional(),
+    eventType: z.string().optional(),
+    eventLocation: z.string().optional(),
+    inspirationFile: z
+        .instanceof(FileList)
+        .refine(files => !files || files.length === 0 || files[0].size <= MAX_FILE_SIZE, `O tamanho máximo é 5MB.`)
+        .refine(
+            files => !files || files.length === 0 || ACCEPTED_FILE_TYPES.includes(files[0].type),
+            'Apenas JPG, PNG, e PDF.',
+        ),
+    message: z
+        .string()
+        .min(10, 'A mensagem deve ter pelo menos 10 caracteres.')
+        .max(500, 'A mensagem não pode exceder 500 caracteres.'),
+})
+
+export type FormSchemaType = z.infer<typeof formSchema>
+
+const ContactPage = () => {
+    const posthog = usePostHog()
+    const navigate = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm<FormSchemaType>({
+        resolver: zodResolver(formSchema),
+        mode: 'onBlur',
+    })
+
+    const onSubmit: SubmitHandler<FormSchemaType> = async data => {
+        // muda o id do usuario do posthog pelo email digitado por ele
+        posthog.identify(data.email, {
+            email: data.email,
+            name: data.name,
+            phone: data.phone,
+        })
+        console.log('Dados do formulário validados:', data)
+
+        // captura evento de envio de formulario (tentativa)
+        posthog.capture('formulario_contato_attempt', {
+            service: data.serviceType,
+            event: data.eventType,
+            local: data.eventLocation,
+            messageSize: data.message.length,
+        })
+
+        try {
+            await sendContactForm(data)
+
+            posthog.capture('formulario_contato_success', {
+                service: data.serviceType,
+                event: data.eventType,
+                local: data.eventLocation,
+                messageSize: data.message.length,
+            })
+
+            alert('Formulário enviado com sucesso!')
+            navigate('/contact/confirmed')
+        } catch (error) {
+            console.error('Erro ao enviar formulário:', error)
+            posthog.capture('formulario_contato_error', {
+                error: true,
+                ...(error instanceof Error ? { message: error.message } : {}),
+            })
+            alert('Ocorreu um erro ao enviar o formulário. Tente novamente mais tarde.')
+        }
+    }
+
+    return (
+        <div className='relative w-full  overflow-x-hidden h-[calc(100dvh-66px)] '>
+            <motion.section
+                initial={{ opacity: 0, y: -50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                viewport={{ once: true }}
+                className='h-[calc(100dvh-64px)] w-[50%] z-10 fixed left-0 '
+            >
+                <img src={img} alt='' className='h-full w-full object-cover object-center' />
+                <img src={tag} alt='' className='w-35 h-50 absolute bottom-5 left-5' />
+            </motion.section>
+
+            {/* LADO DIREITO - SCROLLÁVEL */}
+            <div className='absolute w-1/2 right-0   min-h-[calc(100vh-64px)] '>
+                {/* TÍTULO STICKY */}
+                <motion.div
+                    initial={{ opacity: 0, y: -30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className='sticky top-0 bg-base z-30 ml-2  px-37  pt-8 pb-6'
+                >
+                    <h2 className='uppercase font-primary flex flex-col justify-center items-start font-mediumitalic text-neutral'>
+                        <span className='text-[48px] text-neutral-950 font-semibold '>para </span>
+                        <br />
+                        <span className='text-[64px] text-neutral-950 font-semibold'>
+                            Flor <br /> Do Pomar :
+                        </span>
+                    </h2>
+                </motion.div>
+
+                {/* FORMULÁRIO */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+                    className='px-40.5 pt-8 pb-20'
+                >
+                    <form id='contact-form' onSubmit={handleSubmit(onSubmit)}>
+                        <ContactForm
+                            register={register}
+                            control={control}
+                            errors={errors}
+                            serviceOptions={serviceOptions}
+                            eventOptions={eventOptions}
+                            acceptedFileTypes={ACCEPTED_FILE_TYPES}
+                        />
+
+                        {/* Botão de envio */}
+                        <div className='mt-10 w-full flex justify-end'>
+                            <button
+                                type='submit'
+                                className='text-primary border-b border-b-transparent hover:border-b-primary px-12 py-3 text-lg uppercase font-secondary hover:scale-105 transition-all duration-500 ease-in-out'
+                            >
+                                Enviar
+                            </button>
+                        </div>
+                    </form>
+                </motion.div>
+
+                {/* FOOTER - Agora vem DEPOIS do formulário, não absolute */}
+                <div className='relative -ml-[50vw] w-dvw z-60 bg-base'>
+                    <Footer />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default ContactPage

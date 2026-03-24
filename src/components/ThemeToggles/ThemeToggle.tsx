@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useThemeStore, type Themes } from '../stores/themeStore'
+import { useThemeStore, type Themes } from '../../stores/themeStore'
 
 
 type ThemeToggleTypes = {
@@ -15,7 +15,7 @@ const themes: ThemeToggleTypes[] = [
   {label: 'Dune Glow', value: 'dune-glow'},
   {label: 'Overcast', value: 'overcast'}
 ]
-const ThemeToggle = () => {
+const ThemeToggle1 = () => {
   const { theme, setTheme } = useThemeStore()
 
   const handleThemeChange = (newTheme: Themes) => {
@@ -59,4 +59,4 @@ const ThemeToggle = () => {
   )
 }
 
-export default ThemeToggle
+export default ThemeToggle1;

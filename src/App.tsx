@@ -1,18 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-
-import FooterAlucinado from './components/Footer/FooterAlucinado'
-import MenuLateral1 from './components/MenuLateral/MenuLateral-1/MenuLateral'
-import PacmanSpinner from './components/Spinner/PacmanSpinner'
+import AppRouter from './router/router';
 
 function App() {
-
-  return (
-    <>
-      <FooterAlucinado />
-    </>
-  )
+  return <AppRouter />;
 }
 
-export default App
+export default App;
