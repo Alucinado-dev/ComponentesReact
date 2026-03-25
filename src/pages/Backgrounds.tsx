@@ -1,4 +1,5 @@
 import MeteorShower from "../components/Backgrounds/MeteorShower";
+import StarField from "../components/Backgrounds/Starfield";
 import Container from "../container/Container";
 
 export default function Backgrounds() {
@@ -6,7 +7,7 @@ export default function Backgrounds() {
         <div className="min-h-screen">
             <h1>Backgrounds Page</h1>
 
-            <div className=" flex flex-col justify-between items-center">
+            <div className=" flex flex-col gap-20 justify-between items-center">
 
                 <Container>
                     <div className="bg-gray-950 h-screen p-4  relative">
@@ -31,6 +32,21 @@ export default function Backgrounds() {
                         />
                         <p className="text-white text-center mt-4">Meteor Shower Background</p>
                     </div>
+                </Container>
+
+                <Container>
+                    <div className="bg-gray-950 h-screen p-4 relative">
+                        <StarField
+                        color="#ee1"
+                        count={500}
+                        fadeEdgePercent={0}
+                        fixed
+                        twinkleIntensity={0.8}
+                        
+                        />
+                        <p className="text-white text-center mt-4">Star Field Background</p>
+                    </div>
+
                 </Container>
             </div>
         </div>
