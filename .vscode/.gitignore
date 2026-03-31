@@ -42,7 +42,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
+# Editor
+.vscode/*
+# Mas compartilha as configs do time:
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # Gerado por ferramentas
 *.log
