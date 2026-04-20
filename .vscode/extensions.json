@@ -5,10 +5,10 @@
     "esbenp.prettier-vscode",
 
     // Next.js / React
-    "dsznajder.es7-react-js-snippets",    // snippets rfc, rafce, etc.
+    "dsznajder.es7-react-js-snippets", // snippets rfc, rafce, etc.
 
     // Tailwind
-    "bradlc.vscode-tailwindcss",          // autocomplete de classes Tailwind
+    "bradlc.vscode-tailwindcss", // autocomplete de classes Tailwind
 
     // Qualidade de vida
     "streetsidesoftware.code-spell-checker",
@@ -16,11 +16,11 @@
     "aaron-bond.better-comments",
     "formulahendry.code-runner",
     "eamodio.gitlens",
-    "usernamehw.errorlens",               // você já usa no settings, mas faltava aqui
+    "usernamehw.errorlens",
 
     // Utilidades
     "christian-kohler.path-intellisense", // autocomplete de paths de import
-    "mikestead.dotenv",                   // syntax highlight no .env
-    "pkief.material-icon-theme"           // você já usa o tema no settings
+    "mikestead.dotenv", // syntax highlight no .env
+    "pkief.material-icon-theme" // você já usa o tema no settings
   ]
 }

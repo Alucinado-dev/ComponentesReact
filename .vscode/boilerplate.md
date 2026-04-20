@@ -36,7 +36,7 @@ git config core.autocrlf input
 ## Instalar dependências de dev
 
 ```bash
-npm install --save-dev prettier eslint-config-prettier prettier-plugin-tailwindcss eslint-plugin-simple-import-sort typescript-eslint
+npm install --save-dev prettier eslint-config-prettier prettier-plugin-tailwindcss eslint-plugin-simple-import-sort typescript-eslint clsx tailwind-merge
 ```
 
 > Copiar os arquivos de config: `eslint.config.mjs`, `.prettierrc.json`, `.gitignore`, `.vscode/`
@@ -56,7 +56,6 @@ npm install lucide-react
 ```bash
 npm install @iconify/react
 ```
-
 
 ```ts
 import { Icon } from '@iconify/react'
@@ -82,8 +81,8 @@ npm install nanoid
 ```ts
 import { nanoid } from 'nanoid'
 
-const id = nanoid()     // "V1StGXR8_Z5jdHi6B-myT"  (21 chars, padrão)
-const id = nanoid(10)   // "IRFa-VaY2b"              (tamanho customizável)
+const id = nanoid() // "V1StGXR8_Z5jdHi6B-myT"  (21 chars, padrão)
+const id = nanoid(10) // "IRFa-VaY2b"              (tamanho customizável)
 ```
 
 ### React Hook Form + Zod (validação de formulários)
@@ -94,9 +93,9 @@ npm install react-hook-form zod @hookform/resolvers
 
 ```ts
 // Uso básico
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 ```
 
 > ⚠️ No Next.js, react-hook-form só funciona em Client Components. Adicionar `'use client'` no topo do arquivo.
@@ -115,7 +114,7 @@ No Next.js App Router, o i18n é feito de forma diferente do React puro.
 npm install next-intl
 ```
 
-Seguir documentação: https://next-intl-docs.vercel.app/
+Seguir documentação: <https://next-intl-docs.vercel.app/>
 
 ### Estados Globais - zustand
 
@@ -134,8 +133,8 @@ src/
 └── middleware.ts         # redireciona para o locale correto
 ```
 
-> ⚠️ Não usar `i18next` diretamente em projetos Next App Router — o `next-intl` é integrado nativamente com o roteamento do Next.
-> se for usar só formatação, usar `Intl`, api nativa
+> ⚠️ Não usar `i18next` diretamente em projetos Next App Router — o `next-intl` é integrado nativamente com o roteamento
+> do Next. se for usar só formatação, usar `Intl`, api nativa
 
 ### Datas
 
@@ -155,7 +154,7 @@ npm install motion
 
 ## Estrutura de pastas recomendada (App Router)
 
-``` txt
+```txt
 src/
 ├── app/                  # Rotas (page.tsx, layout.tsx, loading.tsx)
 │   ├── (marketing)/      # Grupo de rotas sem prefixo na URL
