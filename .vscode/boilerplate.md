@@ -36,10 +36,30 @@ git config core.autocrlf input
 ## Instalar dependências de dev
 
 ```bash
-npm install --save-dev prettier eslint-config-prettier prettier-plugin-tailwindcss eslint-plugin-simple-import-sort typescript-eslint clsx tailwind-merge
+npm install --save-dev prettier eslint-config-prettier prettier-plugin-tailwindcss  typescript-eslint clsx tailwind-merge husky lint-staged @trivago/prettier-plugin-sort-imports
 ```
 
-> Copiar os arquivos de config: `eslint.config.mjs`, `.prettierrc.json`, `.gitignore`, `.vscode/`
+> Copiar os arquivos de config: `eslint.config.mjs`, `.prettierrc.json`, `.gitignore`, `.vscode/` iniciar o husky
+
+```bash
+npx husky init
+```
+
+> Adicionar o comando npx lint-staged ao arquivo /husky/pre-commit
+
+adicionar ao objeto raiz de package.json :
+
+```json
+"lint-staged": {
+  "*.{ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ],
+  "*.{json,css,md}": [
+    "prettier --write"
+  ]
+}
+```
 
 ---
 
@@ -94,6 +114,7 @@ npm install react-hook-form zod @hookform/resolvers
 ```ts
 // Uso básico
 import { useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 ```
@@ -151,6 +172,12 @@ npm install motion
 (antigo `framer-motion`, agora chamado `motion`)
 
 ---
+
+## No layout principal
+
+adicionar na tag html o seguinte atributo: suppressHydrationWarning motivo: Por que suppressHydrationWarning no <html>?
+Extensões de browser (como tradutores) modificam o DOM antes do React hidratar, causando warnings. Essa prop suprime
+esses warnings falsos — é seguro usar no <html>.
 
 ## Estrutura de pastas recomendada (App Router)
 

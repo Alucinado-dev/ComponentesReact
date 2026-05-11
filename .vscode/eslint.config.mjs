@@ -13,17 +13,15 @@ const eslintConfig = defineConfig([
     // Regras extras para TS/TSX
     {
         files: ['**/*.{ts,tsx}'],
-        plugins: {
-            'simple-import-sort': simpleImportSort,
-        },
+
         languageOptions: {
             parser: tseslint.parser,
             parserOptions: { project: true },
         },
         rules: {
-            // Organiza imports automaticamente ao salvar
-            'simple-import-sort/imports': 'error',
-            'simple-import-sort/exports': 'error',
+
+            'prefer-const': 'error',           // força const onde let não é necessário
+            'no-console': ['warn', { allow: ['warn', 'error'] }],  // avisa sobre console.log esquecido
 
             // Boas práticas de TS sem ser excessivo
             '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
@@ -45,7 +43,7 @@ const eslintConfig = defineConfig([
     },
 
     // Ignorar pastas geradas — DEVE ser o padrão do Next
-    globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+    globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts', '.husky/**']),
 
     // SEMPRE por último: desativa regras que conflitam com Prettier
     prettierConfig,
