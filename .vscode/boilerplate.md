@@ -36,7 +36,7 @@ git config core.autocrlf input
 ## Instalar dependências de dev
 
 ```bash
-npm install --save-dev prettier eslint-config-prettier prettier-plugin-tailwindcss  typescript-eslint clsx tailwind-merge husky lint-staged @trivago/prettier-plugin-sort-imports
+npm install --save-dev prettier eslint-config-prettier prettier-plugin-tailwindcss  typescript-eslint clsx tailwind-merge husky lint-staged @trivago/prettier-plugin-sort-imports  eslint-config-next
 ```
 
 > Copiar os arquivos de config: `eslint.config.mjs`, `.prettierrc.json`, `.gitignore`, `.vscode/` iniciar o husky
